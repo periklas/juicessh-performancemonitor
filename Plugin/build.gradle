@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.13.0'
+        classpath 'com.android.tools.build:gradle:1.1.1'
     }
 }
 
@@ -22,12 +22,12 @@ apply plugin: 'com.android.application'
 
     android {
 
-    compileSdkVersion 19
-    buildToolsVersion '19.1.0'
+        compileSdkVersion 21
+        buildToolsVersion '21.1.2'
 
     defaultConfig {
-        minSdkVersion 9
-        targetSdkVersion 19
+        minSdkVersion 19
+        targetSdkVersion 21
     }
 
     final Console console = System.console();
@@ -51,7 +51,7 @@ apply plugin: 'com.android.application'
     buildTypes {
         release {
             debuggable false
-            jniDebugBuild false
+            jniDebuggable false
             signingConfig signingConfigs.release
         }
     }
