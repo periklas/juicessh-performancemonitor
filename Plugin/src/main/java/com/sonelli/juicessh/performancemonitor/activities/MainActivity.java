@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.sonelli.juicessh.performancemonitor.R;
@@ -47,6 +48,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
     private Button disconnectButton;
 
     private ConnectionSpinnerAdapter spinnerAdapter;
+
+    // Containers
+    private LinearLayout diskUsageContainer;
 
     // Controllers
     private BaseController loadAverageController;
@@ -94,6 +98,17 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         this.networkUsageTextView = (AutoResizeTextView) findViewById(R.id.network_usage);
         this.diskUsageTextView = (AutoResizeTextView) findViewById(R.id.disk_usage);
 
+        this.diskUsageContainer = (LinearLayout) findViewById(R.id.disk_usage_container);
+
+        this.diskUsageContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(diskUsageController != null) {
+                    ((DiskUsageController)diskUsageController).choosePartition();
+                }
+            }
+        });
+
         this.connectButton = (Button) findViewById(R.id.connect_button);
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,9 +122,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                         connectButton.setEnabled(false);
 
                         try {
-                           client.connect(MainActivity.this, id, MainActivity.this, JUICESSH_REQUEST_CODE);
+                            client.connect(MainActivity.this, id, MainActivity.this, JUICESSH_REQUEST_CODE);
                         } catch (ServiceNotConnectedException e){
-                           Toast.makeText(MainActivity.this, "Could not connect to JuiceSSH Plugin Service", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Could not connect to JuiceSSH Plugin Service", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -203,7 +218,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                 } catch (ServiceNotConnectedException e) {
                     Log.e(TAG, "Failed to disconnect JuiceSSH session used performance monitor plugin");
                 }
-             }
+            }
 
             client.stop(this);
 
